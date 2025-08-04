@@ -359,9 +359,11 @@ function App() {
                 alt={meme.title} 
                 className="meme-image"
                 onError={(e) => {
+                  console.error('Failed to load image:', meme.imageUrl);
                   // Use a simple data URL instead of external placeholder
                   e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjY2NjY2NjIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
                 }}
+                onLoad={() => console.log('Image loaded successfully:', meme.imageUrl)}
               />
               <div className="meme-content">
                 <h3 className="meme-title">{meme.title}</h3>

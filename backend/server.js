@@ -39,10 +39,18 @@ const upload = multer({
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://your-frontend-domain.vercel.app', 'https://aztec-meme-vote.vercel.app'],
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.static('public'));
-app.use('/uploads', express.static(uploadsDir));
+app.use('/uploads', express.static(uploadsDir, {
+  setHeaders: (res, path) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
+  }
+}));
 
 // Data file paths
 const ELIGIBLE_ADDRESSES_PATH = path.join(__dirname, 'data', 'eligible-addresses.json');
@@ -206,7 +214,12 @@ app.post('/api/upload-image', upload.single('image'), async (req, res) => {
       return res.status(400).json({ error: 'No image file uploaded' });
     }
 
-    const imageUrl = `/uploads/${req.file.filename}`;
+    // Get the base URL from request
+    const protocol = req.protocol;
+    const host = req.get('host');
+    const baseUrl = `${protocol}://${host}`;
+    
+    const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
     res.json({ 
       success: true, 
       imageUrl: imageUrl,
