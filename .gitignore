@@ -50,3 +50,6 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+backend/data/memes.json
+backend/data/eligible-addresses.json
