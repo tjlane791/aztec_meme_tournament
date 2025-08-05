@@ -49,7 +49,9 @@ app.use(cors({
     'https://frontend-bk2ax44c0-tjlane791s-projects.vercel.app',
     'https://frontend-hrf64v1n5-tjlane791s-projects.vercel.app',
     'https://frontend-1v2rv3yjv-tjlane791s-projects.vercel.app',
-    'https://frontend-n3xmi4akt-tjlane791s-projects.vercel.app'
+    'https://frontend-n3xmi4akt-tjlane791s-projects.vercel.app',
+    'https://frontend-hgsopjh78-tjlane791s-projects.vercel.app',
+    'https://frontend-dmbdcbust-tjlane791s-projects.vercel.app'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
