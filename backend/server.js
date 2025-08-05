@@ -42,8 +42,12 @@ const upload = multer({
 app.use(cors({
   origin: [
     'http://localhost:3000', 
-    'http://3.26.45.220',  // VPS IP address
-    'https://3.26.45.220'  // VPS IP address (if SSL later)
+    'http://3.26.45.220',
+    'https://3.26.45.220',
+    'https://*.vercel.app',  // Allow all Vercel subdomains
+    'https://aztec-meme-vote.vercel.app',  // Your specific Vercel domain
+    'https://frontend-o4am4xzin-tjlane791s-projects.vercel.app',
+    'https://frontend-alpha-three.vercel.app'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

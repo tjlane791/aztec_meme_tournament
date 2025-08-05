@@ -5,12 +5,12 @@ import LazyBackgroundAnimation from './components/LazyBackgroundAnimation';
 
 // Configure axios base URL for different environments
 const isDevelopment = process.env.NODE_ENV === 'development';
-const API_BASE_URL = isDevelopment ? 'http://localhost:5000' : '';
+const API_BASE_URL = isDevelopment ? 'http://localhost:5000' : 'https://3.26.45.220';
 
 console.log('Environment:', process.env.NODE_ENV);
 console.log('API Base URL:', API_BASE_URL);
 
-// Configure axios defaults - use relative URL in production to avoid mixed content
+// Configure axios defaults - use HTTPS backend in production
 axios.defaults.baseURL = API_BASE_URL;
 
 function App() {
