@@ -3,9 +3,18 @@ import axios from 'axios';
 import { ethers } from 'ethers';
 import LazyBackgroundAnimation from './components/LazyBackgroundAnimation';
 
+// Configure axios base URL for different environments
+const isDevelopment = process.env.NODE_ENV === 'development';
+const API_BASE_URL = isDevelopment ? 'http://localhost:5000' : 'http://3.26.45.220';
+
+console.log('Environment:', process.env.NODE_ENV);
+console.log('API Base URL:', API_BASE_URL);
+
+// Configure axios defaults
+axios.defaults.baseURL = API_BASE_URL;
+
 function App() {
   const [account, setAccount] = useState(null);
-  const [provider, setProvider] = useState(null);
   const [memes, setMemes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -35,7 +44,6 @@ function App() {
         const accounts = await provider.send("eth_requestAccounts", []);
         const account = accounts[0];
         
-        setProvider(provider);
         setAccount(account);
         
         // Check eligibility
@@ -63,10 +71,19 @@ function App() {
     try {
       setLoading(true);
       setError(null); // Clear any previous errors
+      console.log('Loading memes from:', axios.defaults.baseURL + '/api/memes');
       const response = await axios.get('/api/memes');
+      console.log('Memes loaded successfully:', response.data);
       setMemes(response.data.memes);
     } catch (error) {
       console.error('Error loading memes:', error);
+      console.error('Error details:', {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        config: error.config
+      });
       setError('Failed to load memes: ' + (error.response?.data?.error || error.message));
     } finally {
       setLoading(false);
