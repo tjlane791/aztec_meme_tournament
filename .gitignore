@@ -53,3 +53,4 @@ Thumbs.db
 
 backend/data/memes.json
 backend/data/eligible-addresses.json
+.vercel
