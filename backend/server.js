@@ -42,16 +42,8 @@ const upload = multer({
 app.use(cors({
   origin: [
     'http://localhost:3000', 
-    'https://frontend-o4am4xzin-tjlane791s-projects.vercel.app',
-    'https://frontend-alpha-three.vercel.app',
-    'https://*.vercel.app',
-    'https://aztec-meme-vote.vercel.app',
-    'https://frontend-bk2ax44c0-tjlane791s-projects.vercel.app',
-    'https://frontend-hrf64v1n5-tjlane791s-projects.vercel.app',
-    'https://frontend-1v2rv3yjv-tjlane791s-projects.vercel.app',
-    'https://frontend-n3xmi4akt-tjlane791s-projects.vercel.app',
-    'https://frontend-hgsopjh78-tjlane791s-projects.vercel.app',
-    'https://frontend-dmbdcbust-tjlane791s-projects.vercel.app'
+    'https://your-domain.com',  // Ganti dengan domain Anda
+    'https://www.your-domain.com'  // Ganti dengan domain Anda
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
