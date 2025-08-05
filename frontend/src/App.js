@@ -5,7 +5,7 @@ import LazyBackgroundAnimation from './components/LazyBackgroundAnimation';
 
 // Configure axios base URL for different environments
 const isDevelopment = process.env.NODE_ENV === 'development';
-const API_BASE_URL = isDevelopment ? 'http://localhost:5000' : 'https://8e442e50ec53.ngrok-free.app';
+const API_BASE_URL = isDevelopment ? 'http://localhost:5000' : 'http://3.26.45.220';
 
 console.log('Environment:', process.env.NODE_ENV);
 console.log('API Base URL:', API_BASE_URL);

@@ -46,9 +46,13 @@ app.use(cors({
     'https://frontend-alpha-three.vercel.app',
     'https://*.vercel.app',
     'https://aztec-meme-vote.vercel.app',
-    'https://frontend-bk2ax44c0-tjlane791s-projects.vercel.app'
+    'https://frontend-bk2ax44c0-tjlane791s-projects.vercel.app',
+    'https://frontend-hrf64v1n5-tjlane791s-projects.vercel.app',
+    'https://frontend-1v2rv3yjv-tjlane791s-projects.vercel.app'
   ],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 app.use(express.json());
 app.use(express.static('public'));
