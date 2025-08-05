@@ -229,10 +229,13 @@ app.post('/api/upload-image', upload.single('image'), async (req, res) => {
     const protocol = req.protocol;
     const host = req.get('host');
     
-    // Force HTTPS for production
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? `https://${host}` 
-      : `${protocol}://${host}`;
+    // Force HTTPS for production or when X-Forwarded-Proto is https
+    const isHttps = req.get('X-Forwarded-Proto') === 'https' || 
+                   req.get('X-Forwarded-Scheme') === 'https' ||
+                   req.secure ||
+                   process.env.NODE_ENV === 'production';
+    
+    const baseUrl = isHttps ? `https://${host}` : `${protocol}://${host}`;
     
     const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
     res.json({ 

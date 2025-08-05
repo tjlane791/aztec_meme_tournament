@@ -373,7 +373,7 @@ function App() {
           {memes && memes.length > 0 ? memes.map((meme) => (
             <div key={meme.id} className="meme-card">
               <img 
-                src={meme.imageUrl} 
+                src={meme.imageUrl.startsWith('http') ? meme.imageUrl : `${axios.defaults.baseURL}${meme.imageUrl}`}
                 alt={meme.title} 
                 className="meme-image"
                 onError={(e) => {
