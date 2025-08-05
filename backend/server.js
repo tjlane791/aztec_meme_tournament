@@ -40,15 +40,40 @@ const upload = multer({
 
 // Middleware
 app.use(cors({
-  origin: [
-    'http://localhost:3000', 
-    'http://3.26.45.220',
-    'https://3.26.45.220',
-    'https://*.vercel.app'  // Allow ALL Vercel domains
-  ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://3.26.45.220',
+      'https://3.26.45.220',
+      'https://aztec-meme-vote-2hmekej7w-tjlane791s-projects.vercel.app',
+      'https://aztec-meme-vote.vercel.app',
+      'https://*.vercel.app'
+    ];
+    
+    // Check if origin matches any allowed pattern
+    const isAllowed = allowedOrigins.some(allowed => {
+      if (allowed.includes('*')) {
+        // Handle wildcard patterns
+        const pattern = allowed.replace('*', '.*');
+        return new RegExp(pattern).test(origin);
+      }
+      return allowed === origin;
+    });
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      console.log('CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin'],
+  optionsSuccessStatus: 200
 }));
 app.use(express.json());
 app.use(express.static('public'));
@@ -328,6 +353,20 @@ app.post('/api/check-eligibility', async (req, res) => {
   }
 });
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    cors: {
+      origin: req.headers.origin || 'No origin',
+      method: req.method,
+      headers: req.headers
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`CORS enabled for Vercel domains`);
 }); 
