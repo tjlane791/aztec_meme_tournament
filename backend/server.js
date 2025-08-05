@@ -42,8 +42,8 @@ const upload = multer({
 app.use(cors({
   origin: [
     'http://localhost:3000', 
-    'https://your-domain.com',  // Ganti dengan domain Anda
-    'https://www.your-domain.com'  // Ganti dengan domain Anda
+    'http://3.26.45.220',  // VPS IP address
+    'https://3.26.45.220'  // VPS IP address (if SSL later)
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
