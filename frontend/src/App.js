@@ -74,7 +74,7 @@ function App() {
       console.log('Loading memes from:', axios.defaults.baseURL + '/api/memes');
       const response = await axios.get('/api/memes');
       console.log('Memes loaded successfully:', response.data);
-      setMemes(response.data.memes);
+      setMemes(response.data.memes || []);
     } catch (error) {
       console.error('Error loading memes:', error);
       console.error('Error details:', {
@@ -85,6 +85,7 @@ function App() {
         config: error.config
       });
       setError('Failed to load memes: ' + (error.response?.data?.error || error.message));
+      setMemes([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -369,7 +370,7 @@ function App() {
         <div className="loading">Loading memes...</div>
       ) : (
         <div className="meme-grid">
-          {memes.map((meme) => (
+          {memes && memes.length > 0 ? memes.map((meme) => (
             <div key={meme.id} className="meme-card">
               <img 
                 src={meme.imageUrl} 
@@ -407,12 +408,10 @@ function App() {
                 </button>
               </div>
             </div>
-          ))}
+          )) : (
+            <div className="loading">No memes available yet. Be the first to create one!</div>
+          )}
         </div>
-      )}
-
-      {!loading && memes.length === 0 && (
-        <div className="loading">No memes available yet. Be the first to create one!</div>
       )}
       
       {/* Footer with Credits */}
