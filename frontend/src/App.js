@@ -2,13 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ethers } from 'ethers';
 import LazyBackgroundAnimation from './components/LazyBackgroundAnimation';
-
-// Configure axios base URL for different environments
-const isDevelopment = process.env.NODE_ENV === 'development';
-const API_BASE_URL = isDevelopment ? 'http://localhost:5000' : 'https://3.26.45.220';
-
-console.log('Environment:', process.env.NODE_ENV);
-console.log('API Base URL:', API_BASE_URL);
+import { API_BASE_URL } from './config';
 
 // Configure axios defaults - always use HTTPS in production to avoid mixed content
 axios.defaults.baseURL = API_BASE_URL;
