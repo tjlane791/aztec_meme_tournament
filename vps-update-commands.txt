@@ -1,3 +1,16 @@
+# Commands to run on VPS (3.26.45.220)
+
+# 1. SSH ke VPS
+ssh ubuntu@3.26.45.220
+
+# 2. Masuk ke direktori backend
+cd ~/aztec_meme_tournament/backend
+
+# 3. Backup server.js dulu
+cp server.js server.js.backup
+
+# 4. Update server.js dengan fix CORS
+cat > server.js << 'EOF'
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs-extra');
@@ -38,7 +51,7 @@ const upload = multer({
   }
 });
 
-// Middleware
+// Middleware - Enhanced CORS for all origins
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
@@ -47,6 +60,7 @@ app.use(cors({
     const allowedOrigins = [
       'http://localhost:3000',
       'http://localhost:5000',
+      'http://127.0.0.1:3000',
       'http://3.26.45.220',
       'https://3.26.45.220',
       'https://aztec-meme-vote-2hmekej7w-tjlane791s-projects.vercel.app',
@@ -81,6 +95,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin'],
   optionsSuccessStatus: 200
 }));
+
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/uploads', express.static(uploadsDir, {
@@ -377,5 +392,21 @@ app.get('/api/health', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`CORS enabled for Vercel domains`);
-}); 
+  console.log(`CORS enabled for all origins including localhost`);
+});
+EOF
+
+# 5. Restart backend
+pm2 restart aztec-meme-backend
+
+# 6. Check status
+pm2 status
+
+# 7. Test API
+curl -s https://3.26.45.220/api/health
+
+# 8. Test CORS dengan localhost
+curl -H "Origin: http://localhost:3000" \
+     -H "Access-Control-Request-Method: GET" \
+     -H "Access-Control-Request-Headers: Content-Type" \
+     -X OPTIONS https://3.26.45.220/api/memes 

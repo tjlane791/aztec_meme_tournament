@@ -10,7 +10,7 @@ const API_BASE_URL = isDevelopment ? 'http://localhost:5000' : 'https://3.26.45.
 console.log('Environment:', process.env.NODE_ENV);
 console.log('API Base URL:', API_BASE_URL);
 
-// Configure axios defaults - use HTTPS backend in production
+// Configure axios defaults - always use HTTPS in production to avoid mixed content
 axios.defaults.baseURL = API_BASE_URL;
 
 function App() {
@@ -373,7 +373,16 @@ function App() {
           {memes && memes.length > 0 ? memes.map((meme) => (
             <div key={meme.id} className="meme-card">
               <img 
-                src={meme.imageUrl.startsWith('http') ? meme.imageUrl : `${axios.defaults.baseURL}${meme.imageUrl}`}
+                src={(() => {
+                  // Ensure HTTPS URLs to avoid mixed content issues
+                  if (meme.imageUrl.startsWith('http://')) {
+                    return meme.imageUrl.replace('http://', 'https://');
+                  } else if (meme.imageUrl.startsWith('https://')) {
+                    return meme.imageUrl;
+                  } else {
+                    return `${axios.defaults.baseURL}${meme.imageUrl}`;
+                  }
+                })()}
                 alt={meme.title} 
                 className="meme-image"
                 onError={(e) => {

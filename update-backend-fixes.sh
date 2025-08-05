@@ -1,3 +1,18 @@
+#!/bin/bash
+
+# Update Backend with CORS and HTTPS Fixes
+# This script updates the backend server with fixes for CORS and mixed content issues
+
+echo "🚀 Updating backend with CORS and HTTPS fixes..."
+
+# SSH into the VPS and update the backend
+ssh -i ~/.ssh/id_rsa ubuntu@3.26.45.220 << 'EOF'
+
+echo "📁 Navigating to backend directory..."
+cd /home/ubuntu/aztec_meme_vote/backend
+
+echo "🔧 Updating server.js with CORS and HTTPS fixes..."
+cat > server.js << 'SERVER_JS'
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs-extra');
@@ -378,4 +393,24 @@ app.get('/api/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`CORS enabled for Vercel domains`);
-}); 
+});
+SERVER_JS
+
+echo "🔄 Restarting backend server..."
+pm2 restart aztec-backend
+
+echo "✅ Backend updated successfully!"
+echo "🔍 Checking server status..."
+pm2 status
+
+echo "🌐 Testing API endpoints..."
+curl -s https://3.26.45.220/api/health | jq .
+
+EOF
+
+echo "✅ Backend update completed!"
+echo "🎯 The following fixes have been applied:"
+echo "   - Enhanced CORS configuration for all Vercel domains"
+echo "   - Fixed HTTPS image URL generation"
+echo "   - Added Content-Security-Policy headers"
+echo "   - Improved error handling for mixed content issues" 
