@@ -217,7 +217,11 @@ app.post('/api/upload-image', upload.single('image'), async (req, res) => {
     // Get the base URL from request
     const protocol = req.protocol;
     const host = req.get('host');
-    const baseUrl = `${protocol}://${host}`;
+    
+    // Force HTTPS for production
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? `https://${host}` 
+      : `${protocol}://${host}`;
     
     const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
     res.json({ 
