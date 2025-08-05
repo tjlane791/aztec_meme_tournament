@@ -63,7 +63,11 @@ function App() {
     try {
       setLoading(true);
       setError(null); // Clear any previous errors
-      const response = await axios.get('/api/memes');
+      const response = await axios.get('/api/memes', {
+        httpsAgent: new (require('https').Agent)({
+          rejectUnauthorized: false
+        })
+      });
       setMemes(response.data.memes);
     } catch (error) {
       console.error('Error loading memes:', error);
