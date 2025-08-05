@@ -45,7 +45,8 @@ app.use(cors({
     'https://frontend-o4am4xzin-tjlane791s-projects.vercel.app',
     'https://frontend-alpha-three.vercel.app',
     'https://*.vercel.app',
-    'https://aztec-meme-vote.vercel.app'
+    'https://aztec-meme-vote.vercel.app',
+    'https://frontend-bk2ax44c0-tjlane791s-projects.vercel.app'
   ],
   credentials: true
 }));
