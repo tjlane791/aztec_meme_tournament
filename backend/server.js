@@ -40,7 +40,12 @@ const upload = multer({
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://your-frontend-domain.vercel.app', 'https://aztec-meme-vote.vercel.app'],
+  origin: [
+    'http://localhost:3000', 
+    'https://frontend-o4am4xzin-tjlane791s-projects.vercel.app',
+    'https://frontend-alpha-three.vercel.app',
+    'https://*.vercel.app'
+  ],
   credentials: true
 }));
 app.use(express.json());
